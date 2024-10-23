@@ -7,7 +7,7 @@ import os
 
 def product_image_path(instance, filename):
     """Generate a file path for new product image upload."""
-    return f"products/{instance.name}/{filename}"
+    return f"products/{filename}"
 
 
 # Create your models here.
