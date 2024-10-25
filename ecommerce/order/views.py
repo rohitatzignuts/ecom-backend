@@ -8,7 +8,7 @@ from order.permissions import IsOwnerOrReadOnly
 
 # Create your views here.
 class ProductListView(generics.ListCreateAPIView):
-    permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
@@ -19,7 +19,7 @@ class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class OrderListView(generics.ListCreateAPIView):
-    permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
 
@@ -38,8 +38,17 @@ class UserOrderListView(generics.ListAPIView):
 
 class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        """
+        Ensure the user can only retrieve their own orders.
+        """
+        user_id = self.kwargs["user_id"]
+        order_id = self.kwargs["pk"]
+
+        # Return the filtered queryset based on both user and order IDs.
+        return OrderItem.objects.filter(order=order_id)
 
 
 class OrderItemCreateView(generics.CreateAPIView):

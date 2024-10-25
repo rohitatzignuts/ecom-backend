@@ -25,8 +25,11 @@ SECRET_KEY = "django-insecure-r5i(lzqvg_+%32zw91+&p7(g%#)@e%vkuf7=oxqg11p9sg1c_d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 ALLOWED_HOSTS = []
-CORS_ORIGIN_ALLOW_ALL = True
-
+CSRF_COOKIE_HTTPONLY = False
+CORS_ALLOW_CREDENTIALS = True
+# CSRF_COOKIE_SAMESITE = "Lax"
+CORS_ALLOWED_ORIGINS = ["http://localhost:5173", "http://127.0.0.1:5173"]
+# CSRF_TRUSTED_ORIGINS = ["http://localhost:5173", "http://127.0.0.1:5173"]
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,6 +42,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "order",
+    "user",
 ]
 
 MIDDLEWARE = [
@@ -46,7 +50,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    # "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
